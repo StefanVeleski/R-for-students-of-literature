@@ -36,7 +36,7 @@ y*z
 # Exponentiation
 2^3  
 
-# Squaring
+# Square root
 sqrt(4)  
 
 # This prints the contents of the object in the console (instead of just typing the object name and running it)
