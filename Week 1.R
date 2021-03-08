@@ -1,110 +1,161 @@
 ####Setting up working directory####
-
 setwd("C:/Users/Stefan/Documents/GitHub/R-for-students-of-literature")
-#you can also do this using one of R Studio's features. Session -> Set working directory -> To source file location or
-#Choose directory
-#one of the quirks of R as a programming language is that it almost never uses backslashes, but forward slashes only.
+
+# You can also set up a working directory using one of R Studio's features: 
+# Session -> Set working directory -> To source file location/Choose directory
+# Also, one of the quirks of R as a programming language is that it almost never uses backslashes, 
+# but forward slashes only.
+
 getwd()
 
-#Setting up an R studio theme
-#Tools -> Global options -> Appearance
+# Setting up an R studio theme
+# Tools -> Global options -> Appearance
 
 ####Basic math in R ####
-x <- 1+2 #Shortcut for the arrow is alt+ - 
 
-#Alternative is =, but this isn't used that often and it can cause you complications later on
-x #This text will be ignored by the program
+x <- 1+2 
+x
+
+# Shortcut for the arrow is alt + - 
+# A possible alternative is =, but this isn't used that often and it can cause you complications later on
+# This text will be ignored by the program
 
 y <- 3-2
 y
 
-z <- x-y #once you assign values to the objects, you can use the object themselves in mathematical operations
+# Once you assign values to the objects, you can use the object themselves in mathematical operations
+z <- x-y 
 z
 
-z/y #division - remember, you need to store the contents
+# Division (remember, you need to store the contents to an object if you would like to reuse them)
+z/y 
 
-y*z #multiplication
+# Multiplication
+y*z 
 
-2^2
+# Exponentiation
+2^3  
 
-sqrt(4)
+# Squaring
+sqrt(4)  
 
-print(z) #you can just print the value of the object in this way, but you can do the same thing
+# This prints the contents of the object in the console (instead of just typing the object name and running it)
+print(z)
 
+# This opens the official R documentation for this function
+?print 
 
-x <- "I like the stock!" #Overwriting the contents of the object with another one
+# You can also overwrite the contents of the object with another one
+x <- "Hello world!" 
 
-print(x) #this prints the contents of the object in the console
-
-?print #this opens the official R documentation for this function
-
-#Spaces don't matter in R, but capitalization does
+# Spaces don't matter in R, but capitalization does
 a<-1
 A <- 2
 
-a+A
+# R considers the following as separate objects
+a+A 
 
-class(x) #checking the class of objects - more about the different classes of objects next week
+# Checking the class of objects - more about the different classes of objects next week
+class(x) 
+
 class(a)
 
-rm(list=ls()) #this can be used to Clear the environment - you can do the same with the little broom
+# Multiple values can be combined into a vector
+v <- c(1,2,3,4)
 
-vector <- c(1,2,3,4)
+class(v)
 
-?C
+# See the documentation for this function
+?c 
 
+# The exact same vector as above can be done like this
+v <- 1:4
 
-#Two letters + Tab choosing function
+# Two letters + Tab choosing function
 
-#up arrow in console to get previous commands
+# Up arrow in console to get previous commands
 
-?ls() #putting a question mark before the function
+# This function reveals the contents of your global environment
+ls() 
+
+# This can be used to clear the global environment - you can do the same with the little broom icon
+rm(list=ls()) 
 
 ####Files and directories from the console####
+# Now we'll be working a little bit on the level of files and folders
 
-dir() #this function tells you which files you have in the directory that you specified
+# This function tells you which files you have in the working directory that you specified earlier
+dir() 
 
-list.files() #Sometimes R has overlapping functions, that basically accomplish the same thing
+# This function does the same - sometimes R has functions that do the same thing
+list.files() 
 
-identical(dir, list.files) #You can check this by using the identical function
+# You can check this with this function
+identical(dir, list.files) 
+
+#See what this function contains
 ?identical
 
-identical(A, 2) #This does not necessarily need to be applied to functions, but also to objects and simple values
+# In addition to functions, it can also be applied to objects and values
+identical(A, 2) 
 
-args(identical) #This function can actually reveal the actual hidden structure
+# This function can reveal the arguments that you need to use in the function
+args(identical) 
 
+# This is the fastest way of creating a folder within your working directory
+dir.create("testdir") 
 
-dir.create("testdir")
-getwd()
-
+# This function creates a file (you can try other file formats as well)
 file.create("test.R")
 
-file.info("test.R")
+# The "file.info()" function gives you some basic info about your file
+file.info("test.R") 
 
-file.rename("test.R","test1.R")
-?file.rename
+# Renaming the file (argument 1 original file name, argument 2, new file name)
+file.rename("test.R","test1.R") 
 
-file.copy("test.R", "test_copy.R")
+# You can see how this is explained in the function documentation
+?file.rename 
 
-file.exists("test_copy.R")
+# Creating a copy of a file - (argument 1 original, argument 2, new copy)
+file.copy("test1.R", "test1_copy.R") 
 
-file.remove("testdir")
+# This function can test whether or not a certain file exists
+file.exists("test1_copy.R") 
 
-#At this point I can go to Stackoverflow and show them how to look for solutions for questions like these.
+# Let's remove these two files
+file.remove("test1.R", "test1_copy.R")
 
-unlink('testdir', recursive=TRUE)
+# When it comes to deleting the "testdir" directory, there does not seem to be an easy function to do this
+# When using file.remove for this purpose there is an error - file.remove does not apply to dirs (folders)
+file.remove("testdir") 
 
+# Stackoverflow or Github can give you solutions for any such problems that might crop up
+# Just Googling the warning/error message (displayed in the console) often does the trick
 
-file.remove("test.R", "test_copy.R")
+# The first Google result shows that this is how you delete directories from the working directory
+unlink("testdir", recursive=TRUE)
+
+# It works!
 
 ####Package of the week####
 
-#The following is part of the package of the week part of the class - 
+# The following is part of the package of the week part of the class 
 
-install.packages("swirl") #this is how you install packages
-library(swirl) #this chooses the package you'll be working with - in normal circumstances, one would
-swirl::install_course("A_(very)_short_introduction_to_R") #this is basically the same as the two abovementioned steps, 
-#basically forcing an installation and selecting the course
-install_course("A_(very)_short_introduction_to_R") #if you have done the first two steps, you're fine with just this
+# This is how you install packages
+install.packages("swirl") 
 
+# This chooses the package you'll be working with
+library(swirl) 
+
+# Take a look at the package documentation (you can also look at the CRAN page for more info)
+?swirl 
+
+# This is how you install courses (I recommend this one)
+install_course("A_(very)_short_introduction_to_R") 
+
+# The following is basically the same as the two abovementioned steps
+swirl::install_course("A_(very)_short_introduction_to_R")
+
+# Finally you can run the package - you can take the rest from here (just follow the instructions in the console)
 swirl()
