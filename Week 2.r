@@ -130,7 +130,7 @@ as.character(x)
 
 # Feel free to experiment with explicit coercion on your own objects
 
-# Sometimes, R can't figure out how to coerce an object and this can result in 
+# Sometimes, R can't figure out how to coerce an object and this can result in
 # NAs (not available) being produced.
 
 # When nonsensical coercion takes place, you will usually get a warning from R.
@@ -161,28 +161,28 @@ d1d2_df <- data.frame(
 names(d1d2_df) <- c("Dimensions", "Homogenous", "Heterogeneous")
 
 #### Lists####
-# Lists are a special type of vector that can contain elements of different 
-# classes. As shown in d1d2_df, they are one dimensional data structures, 
-# just like vectors. 
-# Lists can be explicitly created using the list() function, which takes an 
+# Lists are a special type of vector that can contain elements of different
+# classes. As shown in d1d2_df, they are one dimensional data structures,
+# just like vectors.
+# Lists can be explicitly created using the list() function, which takes an
 # arbitrary number of arguments.
 
 x <- list(1, "a", TRUE)
 x
 
 #### Matrices####
-# Matrices are vectors with a dimension attribute (look at d1d2_df). 
+# Matrices are vectors with a dimension attribute (look at d1d2_df).
 
 m <- matrix(nrow = 2, ncol = 3)
 m
 
-# The dimension attribute is  itself an integer vector of length 2 (number of 
-# rows, number of columns).The dim function returns the number of rows and 
+# The dimension attribute is  itself an integer vector of length 2 (number of
+# rows, number of columns).The dim function returns the number of rows and
 # columns that the matrix has.
 
 dim(m)
 
-# Matrices are constructed column-wise, i.e. stating from the top left and 
+# Matrices are constructed column-wise, i.e. stating from the top left and
 # running down the columns.
 m <- matrix(1:6, nrow = 2, ncol = 3)
 m
@@ -191,7 +191,7 @@ m
 x <- 1:3
 y <- 10:12
 
-# The cbind () function allows you to combine these vectors into a matrix as 
+# The cbind () function allows you to combine these vectors into a matrix as
 # columns.
 
 m <- cbind(x, y)
@@ -200,7 +200,7 @@ m <- cbind(x, y)
 
 m <- rbind(x, y)
 
-# The nrow () and ncol () functions show you how many rows and columns the 
+# The nrow () and ncol () functions show you how many rows and columns the
 # matrix contains.
 
 nrow(m)
@@ -208,60 +208,59 @@ nrow(m)
 ncol(m)
 
 #### Data frames####
-# Data frames are used to store tabular data in R. They are probably the most 
-# important type of object that we will use throughout the course. The fifth 
-# session will be specially dedicated to working with data frames - importing 
-# them, creating them from scratch, tidying them, and finally visualizing them.  
-# We will mostly be relying on the tidyverse collection on packages to do so, 
-# but we'll get back to that in a couple of weeks. 
+# Data frames are used to store tabular data in R. They are probably the most
+# important type of object that we will use throughout the course. The fifth
+# session will be specially dedicated to working with data frames - importing
+# them, creating them from scratch, tidying them, and finally visualizing them.
+# We will mostly be relying on the tidyverse collection on packages to do so,
+# but we'll get back to that in a couple of weeks.
 
-# Data frames can be thought of as lists with a dimension attribute. Look at 
+# Data frames can be thought of as lists with a dimension attribute. Look at
 # the d1d2_df. The main differences are that every element of the list has to have
-# the same length. Each element of the list can be thought of as a column 
+# the same length. Each element of the list can be thought of as a column
 # and the length of each element of the list is the number of rows.
 
-# Unlike matrices, data frames can store different classes of objects in each 
-# column. Matrices must have every element be the same class (e.g. all integers 
+# Unlike matrices, data frames can store different classes of objects in each
+# column. Matrices must have every element be the same class (e.g. all integers
 # or all numeric).
 
-# Data frames are usually created by reading in a dataset. You can load in a 
+# Data frames are usually created by reading in a dataset. You can load in a
 # dataframe (we'll mostly be using .csv files in the course) using the import
-# dataset shortcut in the environment panel, or by using the read.table() or 
-# read.csv() functions. Data frames can also be created explicitly with the 
-# data.frame() function or they can be coerced from other types of objects like 
+# dataset shortcut in the environment panel, or by using the read.table() or
+# read.csv() functions. Data frames can also be created explicitly with the
+# data.frame() function or they can be coerced from other types of objects like
 # lists.
 
-# Just like the built-in constant mentioned on line 6, R has some ready-made 
+# Just like the built-in constant mentioned on line 6, R has some ready-made
 # data frames as well. One of the most commonly used ones is the iris dataframe.
 
 iris
 
 # We need to store it in our environment first if we'd like to manipulate it in
-# any way. 
+# any way.
 iris_df <- iris
 
 # You can find two different ways of constructing data frames on lines 60 and 157.
 
-# The following is the third and imo the cleanest way of explicitly creating 
+# The following is the third and imo the cleanest way of explicitly creating
 # dataframes.
 
 example_df <- data.frame(foo = 1:4, bar = c(T, T, F, F))
 example_df
 
 # What follows is a quick rundown of the most common data frame related functions.
-# 
 
-# The following two functions are generic functions, which can be extended to 
+# The following two functions are generic functions, which can be extended to
 # other classes
 # The first, head () gives you the first parts of the object (the first six
 # rows of the data frame in this case).
 
 head(iris_df)
 
-# The tail () function shows you the last 6 rows. 
+# The tail () function shows you the last 6 rows.
 tail(iris_df)
 
-# The following three functions were used in the matrices section as well. Try 
+# The following three functions were used in the matrices section as well. Try
 # them out.
 
 dim(iris_df)
@@ -270,18 +269,18 @@ nrow(iris_df)
 
 ncol(iris_df)
 
-# The str () function, short for structure, is a very handy way of looking at 
-# the structure of an object. Most commonly used for data frames as the most 
+# The str () function, short for structure, is a very handy way of looking at
+# the structure of an object. Most commonly used for data frames as the most
 # complex data structure.
 
-str(iris_df) 
+str(iris_df)
 
-####Factors####
+#### Factors####
 # Factors are used to represent categorical data. Peng suggests looking at them
-# as integer vectors, where each integer has a label. Factors are very useful 
-# for visualization purposes in data frames where the observations (rows) can be 
+# as integer vectors, where each integer has a label. Factors are very useful
+# for visualization purposes in data frames where the observations (rows) can be
 # broadly divided in several groups. These can be visualized as different box
-# plots, or as different colors on a scatterplot. 
+# plots, or as different colors on a scatterplot.
 
 countrynames_f <- factor(c("Czech Republic", "Slovakia", "Austria", "Hungary"))
 
