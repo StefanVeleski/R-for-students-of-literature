@@ -145,7 +145,9 @@ as.numeric(x)
 x <- c("1", "2", "3")
 x
 
-as.numeric(x)
+# Don't forget to overwrite x, otherwise what you did will only be printed in 
+# the console and it won't be stored in the environment
+x <- as.numeric(x)
 x
 
 #### Data structures####
