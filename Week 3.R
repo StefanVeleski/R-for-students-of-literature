@@ -81,7 +81,7 @@ isFALSE(1<3)
 
 #### Subsetting#####
 
-# Subsetting is another words for selecting elements of a data structure.
+# Subsetting is another word for selecting elements of a data structure.
 
 # Let's start off by creating a character vector
 
@@ -94,10 +94,10 @@ x[1]
 # certain range of elements.
 x[1:4]
 
-# This is how you can select everything except a particular element
+# This is how you can select everything except for a particular element
 x[x!="b"]
 
-#You can do the same a bit faster like this
+# You can do the same a bit faster like this
 x[-2]
 
 # Everything except for a particular sequence
@@ -109,7 +109,7 @@ x[c(1,3)]
 # Matrix
 
 # Matrices are two dimensional data structures so subsetting is somewhat 
-# different for them than for vectors. Let's first make a matrix
+# different for them than for vectors. Let's first create a matrix
 m <- matrix(1:15,nrow = 3, ncol = 5)
 
 # This is how you can select rows
@@ -127,7 +127,7 @@ m[1, 1]
 # Let's first load in the built in iris data frame into the environment 
 data(iris)
 
-# Selecting particular row, columns, and "cells" is the same as in matrices. 
+# Selecting a particular row, column, and "cell" is the same as in matrices. 
 iris[,5]
 
 iris[1, ]
@@ -135,8 +135,9 @@ iris[1, ]
 iris[1, 1]
 
 # Because the columns of data frames have names, you can use $ to toggle between
-# the different columns
-iris$Sepal.Length
+# the different columns. Press Tab after typing the dollar sign for the columns
+# to show up.
+iris$Species
 
 # Lists
 l <- list(x = 1:5, y = c("a", "b"))
