@@ -82,9 +82,9 @@ isFALSE(1 < 3)
 #### Subsetting#####
 
 # Subsetting is another word for selecting elements of a data structure.
-
 # Let's start off by creating a character vector
 
+# Vectors
 x <- c("a", "b", "c", "d")
 
 # This is how you select the first element of the vector
@@ -106,7 +106,7 @@ x[-(2:4)]
 # Selecting several elements of a vector
 x[c(1, 3)]
 
-# Matrix
+# Matrices
 
 # Matrices are two dimensional data structures so subsetting is somewhat
 # different for them than for vectors. Let's first create a matrix
