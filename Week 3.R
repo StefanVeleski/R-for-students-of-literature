@@ -1,65 +1,65 @@
 #### Logical operators####
 
-# TRUE and FALSE - boolean values. Logical operators allow you to work with 
+# TRUE and FALSE - boolean values. Logical operators allow you to work with
 # these values.
-# You can think of boolean values as placeholders for logical expressions made 
+# You can think of boolean values as placeholders for logical expressions made
 # with numbers.
 # Equality operator (you can group logical expressions by parentheses)
-(FALSE==TRUE)==FALSE
+(FALSE == TRUE) == FALSE
 
 # Remember that the = operator basically does the same as the <- operator.
 
 # Numbers, less than/ greater than
-2<3
-3>2
+2 < 3
+3 > 2
 
 # Less or equal/ greater than or equal
-1<=2
-1>=1
+1 <= 2
+1 >= 1
 
-# Not equal operator 
-1!=2
+# Not equal operator
+1 != 2
 
-# Not operator 
-# Like the other logical operators this one too can be used with both boolean 
+# Not operator
+# Like the other logical operators this one too can be used with both boolean
 # values and numbers
 !FALSE
-!3==4
+!3 == 4
 
 # Try to guess the result of this expression, without actually running it!
-(TRUE == FALSE) != !(2 <= 3) 
+(TRUE == FALSE) != !(2 <= 3)
 
 # The result should be FALSE
 
 # & operators
-# A single & operator iterates over each of the elements of the vector on the 
+# A single & operator iterates over each of the elements of the vector on the
 # right side, and prints a vector of logical values
 TRUE & c(TRUE, FALSE, FALSE)
 
-# The && operator just works with the first element of the vector. This will 
+# The && operator just works with the first element of the vector. This will
 # become important later on, when we'll be working with loops
-TRUE && c(TRUE, FALSE, FALSE) 
+TRUE && c(TRUE, FALSE, FALSE)
 
-# Or operator. At least one of the compared boolean values needs to be TRUE for 
+# Or operator. At least one of the compared boolean values needs to be TRUE for
 # the expression to evaluate to true.
 TRUE | c(TRUE, FALSE, FALSE)
 
 # The || operator works in basically the same way as the && operator, taking
 # just the first element of the vector.
-TRUE || c(TRUE, FALSE, FALSE) 
+TRUE || c(TRUE, FALSE, FALSE)
 
-# When we have both & and | in an expression, & is run first. Here's a quick 
+# When we have both & and | in an expression, & is run first. Here's a quick
 # rundown of how this process works. Run parts of the expression below, before
-# running the full expression to better understand how it works. 
-  
+# running the full expression to better understand how it works.
+
 2 > 5 || 7 != 9 && 3 < 3.9
 
 # Exclusive or (TRUE only if the arguments differ)
-xor(TRUE,FALSE)
+xor(TRUE, FALSE)
 
 # Which of the elements are true. The output is a vector, saying which elements
 # of the vector are TRUE.
-  
+
 which(c(TRUE, FALSE, FALSE))
 
 # Are all values true?
@@ -71,13 +71,13 @@ any(c(TRUE, FALSE, FALSE))
 
 # These next two functions, which simply check whether the logical expression
 # enclosed in the brackets is TRUE or FALSE
-isTRUE(1<3)
-isFALSE(1<3)
+isTRUE(1 < 3)
+isFALSE(1 < 3)
 
-# Roger Peng's R programming swirl course has an excellent lessen on logical 
+# Roger Peng's R programming swirl course has an excellent lesson on logical
 # operators which I highly recommend. I suggest you go through it at least once
 # or twice before the exam. Also the entire course is really good and I actually
-# based a lot of the previous two scripts on this swirl course. 
+# based a lot of the previous two scripts on this swirl course.
 
 #### Subsetting#####
 
@@ -90,12 +90,12 @@ x <- c("a", "b", "c", "d")
 # This is how you select the first element of the vector
 x[1]
 
-# You can put a sequence of numbers in the square brackets, selecting a 
+# You can put a sequence of numbers in the square brackets, selecting a
 # certain range of elements.
 x[1:4]
 
 # This is how you can select everything except for a particular element
-x[x!="b"]
+x[x != "b"]
 
 # You can do the same a bit faster like this
 x[-2]
@@ -104,13 +104,13 @@ x[-2]
 x[-(2:4)]
 
 # Selecting several elements of a vector
-x[c(1,3)]
+x[c(1, 3)]
 
 # Matrix
 
-# Matrices are two dimensional data structures so subsetting is somewhat 
+# Matrices are two dimensional data structures so subsetting is somewhat
 # different for them than for vectors. Let's first create a matrix
-m <- matrix(1:15,nrow = 3, ncol = 5)
+m <- matrix(1:15, nrow = 3, ncol = 5)
 
 # This is how you can select rows
 m[1, ]
@@ -124,11 +124,11 @@ m[1, 1]
 # Dataframes
 # The subsetting process is similar for data frames
 
-# Let's first load in the built in iris data frame into the environment 
+# Let's first load in the built in iris data frame into the environment
 data(iris)
 
-# Selecting a particular row, column, and "cell" is the same as in matrices. 
-iris[,5]
+# Selecting a particular row, column, and "cell" is the same as in matrices.
+iris[, 5]
 
 iris[1, ]
 
@@ -137,92 +137,109 @@ iris[1, 1]
 # Because the columns of data frames have names, you can use $ to toggle between
 # the different columns. Press Tab after typing the dollar sign for the columns
 # to show up.
-iris$Species
+iris$Sepal.Length
 
 # Lists
+# Lists are single dimensional data structures, that can hold elements of
+# various data classes. This shapes the ways we can subset lists. Let's first
+# make a list
 l <- list(x = 1:5, y = c("a", "b"))
 
+# This selects the second element of the list, which is a named (y) character
+# vector. As you can notice y does not show up as an object in the environment.
 l[2]
 
-l$x
+# This also gives you the contents of the second element of the list, but the
+# name is not printed because you explicitly named it. Think of this expression
+# as "the element of l named y".
+l$y
 
+# Ditto, but the name is printed in the console this time around
 l["y"]
 
 # Extracting multiple elements of a list
-
 l[c(1, 2)]
 
-# Nested elements of lists - data frames - each column - equal number of 
-# observations
+# Nested elements of lists
 
-l[[c(2,1)]]
+# This expression extracts the first element of the second element of the list
+l[[c(2, 1)]]
 
-l[[c(1,4)]]
+# The fourth element of the first element of the list
+l[[c(1, 4)]]
 
 # Removing NA values
 
-# A common use case for subsetting is removing NAs, or missing values from 
+# A common use case for subsetting is removing NAs, or missing values from
 # different data structures. Usually these missing values need to be removed
-# as they can contribute nothing to data analyses
+# as they can contribute nothing to the data analysis
 
 # Let's first make a vector containing missing values
 x <- c(1, 2, NA, 4, NA, 5)
 
+# Now let's make a vector containing all the NA elements of x. We can do this
+# with the is.na() function.
 bad <- is.na(x)
 
-print(bad)
+# If you print the contents of the object bad, you get a logical vector, which
+# returns TRUE for each element
+bad
 
-x[!bad]
+# Now you can overwrite x with the cleaned up vector.
+x <- x[!bad]
 
+# This approach works too. Make sure you load in the vector from line 178
 good <- !is.na(x)
 good
 
-x[good]
-
-# If you'd like to remove NAs from two objects
-x <- c(1, 2, NA, 4, NA, 5)
-y <- c("a", "b", NA, "d", NA, "f")
-
-good <- complete.cases(x, y)
-good
-
-good[x]
-
-x[good]
-
-y[good]
+x <- x[good]
 
 #### Functions####
 
-# We will only cover the basics today, and we will look at more complicated 
-# functions and more importantly various kinds of loops during the last session.
+# We will only cover the basics today, and we will look at more complicated
+# functions and more importantly various kinds of loops during the next session
 
-
+# This is an empty function
 f <- function() {
-          # This is an empty function
+
 }
 
 # Functions have their own class
-class(f)  
+class(f)
 
 # Execute this function
-f()       
+f()
 
+# Let's make our first function. In the parentheses, we put the variables of
+# the function, in this case x. In the curled brackets we put in the body of
+# the function. Here we would like the function to print if x is less than 5.
 f <- function(x) {
-    if(x<5) cat("Hello, world!\n")
+  if (x < 5) cat("Hello, world!\n")
 }
 
-f(x=3)
+# We can now run the function, and use different values for the variable
+# depending on whether we'd like "Hello, world!" to be printed in the console.
 
-# If statements
+f(x = 3)
+# Remember that you are not creating a variable in the environment by doing so. 
+# Try to create an object x with a certain value and run the f () function with
+# x as an argument. 
 
-if (test_expression) {
-  statement
+# Feel free to play around with this and to create different functions
+
+# You noticed that in the f () function that we created above,
+# we used the if statement. The simplest version of this statement is the
+# good old IF THEN version, where if certain conditions are met, something
+# happens. This is demonstrated in the example above. Another basic control
+# structure is IF ELSE, demonstrated in the function below.
+
+f2 <- function(x) {
+  if (x >= 0) print("Non-negative number") else print("Negative number")
 }
 
-x <- -1
+f2(x = -2)
 
-if (x > 0) print("Non-negative number") else print ("Negative number")
+# Change the x variable to get both outcomes printed in the console
 
 #### Progress tracker in R####
 # With the help of this function you will be able to track your reading, and 
@@ -231,10 +248,10 @@ if (x > 0) print("Non-negative number") else print ("Negative number")
 # First we need to name the function, and assign the variables.
 
 reading_progress <- function(total, read){
-# Let's start with writing the output. The cat() function is basically a combination
-# of the c() and print () functions, which returns a character vector.
-# This is the text that shows what percentage of the book we have read. The
-# 2 argument of the round function is the number of decimal points that the 
+# Let's start with writing the output. The cat() function is basically a 
+# combination of the c() and print () functions, which returns a character 
+# vector. This is the text that shows what percentage of the book we have read. 
+# The 2 argument of the round function is the number of decimal points that the 
 # function has.
   cat("\nYou are", round(read/total*100, 2),"% done!")
   
