@@ -212,18 +212,19 @@ f()
 
 # Let's make our first function. In the parentheses, we put the variables of
 # the function, in this case x. In the curled brackets we put in the body of
-# the function. Here we would like the function to print if x is less than 5.
+# the function. Here we would like the function to print "Hello, world!"
+# if x is less than 5.
 f <- function(x) {
   if (x < 5) cat("Hello, world!\n")
 }
 
 # We can now run the function, and use different values for the variable
 # depending on whether we'd like "Hello, world!" to be printed in the console.
-
 f(x = 3)
+
 # Remember that you are not creating a variable in the environment by doing so. 
-# Try to create an object x with a certain value and run the f () function with
-# x as an argument. 
+# Try to create an object x with a certain numeric value and run the f () 
+# function with x as an argument. 
 
 # Feel free to play around with this and to create different functions
 
@@ -294,7 +295,7 @@ reading_progress <- function(total, read){
   
   
 }
-# That's the entire function. Now we can run the function with your numbers
+# That's the entire function. Now you can run the function with your numbers
 reading_progress(total = 100, read = 100)
 
 # You can imagine this as a dashboard of sorts, where you will enter 
