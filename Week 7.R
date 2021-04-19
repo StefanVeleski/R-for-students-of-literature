@@ -83,8 +83,8 @@ plot(h_count_v, # data
   type = "h", # this indicates the type of the plot, in this case a histogram
   ylim = c(0, 1), # the range of observations depicted on the y axis
   yaxt = "n", # suppresses the occurrence of scales and labels on the y axis
-  col = "cadetblue3"
-) # choosing a color.
+  col = "cadetblue3" # choosing a color.
+) 
 
 # Export in 3x7 resolution
 
@@ -197,7 +197,8 @@ freq_plot # note that with ggplot you can actually save the plots as objects in 
 
 #### Tf - idf####
 # Term frequency - inverse document frequency disregards those words from individual texts that
-# are also common in the other texts of the corpus, and only keeps the most common words unique to # the text in question. In a way, this performs similarly to removing stop words from a document.
+# are also common in the other texts of the corpus, and only keeps the most common words unique to
+# the text in question. In a way, this performs similarly to removing stop words from a document.
 
 book_tf_idf <- book_words_subset %>%
   bind_tf_idf(word, title, n) # tidy text function that automatically determines the tf, idf and
@@ -239,9 +240,12 @@ pal <- brewer.pal(8, "Dark2") # RColorBrewer is a required package for the wordc
 # eight colors in total and the Dark 2 palette.
 ?brewer.pal # for more info
 
-# Removing stopwords
+# Removing stopwords (i.e. words that don't add much meaning to the sentence, 
+# mostly function words - the, a, at, etc.)
 book_words_subset <- book_words_subset %>%
   anti_join(stop_words)
+
+# The end result is very similar to what we got by using the tf-idf method
 
 set.seed(1234) # for reproducibility
 
@@ -256,7 +260,7 @@ wordcloud(
   random.order = FALSE, # plot words in decreasing frequency, not randomly
   rot.per = 0.35, # the percentage (in this case 35%) of words in the word cloud
   # that will be rotated by 90 degrees
-  colors = pal # the colors used in the wordcloud are determined by the pal variable above
+  colors = pal # the colors used in the word cloud are determined by the pal variable above
 ) 
 
 # Caveats of word cloud visualizations - area a poor metaphor of numeric value,
