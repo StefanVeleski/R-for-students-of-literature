@@ -53,8 +53,9 @@ Dracula_adaptations <- Dracula_adaptations %>% select(-1)
 # Check the documentation of the function
 ?`%>%`
 
-Dracula_adaptations %>% select(Director:Studio) # you can use the colon operator to select
-# a range spanning multiple columns
+# you can use the colon operator to select a range spanning multiple columns
+Dracula_adaptations %>% 
+  select(Director:Studio) 
 
 # The filter function subsets a data frame according to certain conditions that you specify
 # In the expression below, only the observations that have the value 1957 in the Year column are 
@@ -87,7 +88,7 @@ Dracula_adaptations %>%
   clean_names() %>% 
   colnames()
 
-# This is enough for now, some of the other dplyr functions will be mentioned in the later sessions.
+# This is enough for now, some of the other dplyr functions will be mentioned in the later sessions
 
 # We can save the new, freshly wrangled dataframes either with the base R write.csv function, or 
 # preferably with the fwrite function from the data.table package.
@@ -95,8 +96,7 @@ Dracula_adaptations %>%
 data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
 ?fwrite # check the documentation
 
-# data.table::fwrite() to write CSV files is much faster than the base R write.csv(), using more 
-# CPU cores
+# data.table::fwrite() is much faster than the base R write.csv(), since it uses more CPU cores
 
 #### ggplot2####
 # The ggplot2 package is the tidyverse version of the base R plot function, but is much more 
@@ -125,7 +125,7 @@ ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
                    size = mpg, # the size of the datapoints dictated by mpg variable
                    color = cyl, # color dictated by color variable (factor, hence discrete colors,
                    # not shades of a single color)
-                   shape = am)) + # shape dictated
+                   shape = am)) + # shape dictated by the type of transmission
   geom_point(alpha = .3) + # geom_point - scatterplot, alpha - transparency
   labs( # The labels for each element of the legend
     title = "Control Legend Titles w/ labs ()",
@@ -133,6 +133,9 @@ ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
     color = "Cylinders", 
     shape = "Transmission" 
   )
+
+# Avoid stuffing this much data in a single plot, as there are certain cognitive limits to 
+# how much (visual) information we can process.
 
 # Export in 5x7
 
@@ -153,7 +156,6 @@ Main_dataset$Ratings <- as.numeric(Main_dataset$Ratings)
 Main_dataset$Syllabi <- as.numeric(Main_dataset$Syllabi)
 Main_dataset$`Bestseller?` <- as.factor(Main_dataset$`Bestseller?`)
 
-# The main purpose of this visualization is creating a correlation plot between the data 
 corr_plot <- ggscatter(Main_dataset, # data 
                        x = "Ratings", # x axis label
                        y = "Syllabi", # y axis label
@@ -198,7 +200,7 @@ Main_dataset$`Bestseller?`
 set.seed(123) # for reproducibility (there is a dose)
 
 library(ggstatsplot)                 
-gender_plot <- ggbetweenstats( # there are other functions available at the package manual website
+gender_plot <- ggbetweenstats( # there are other functions available at the package website
   data = Main_dataset, # data
   x = Gender, # data for x axis
   y = Ratings, # data for y axis
@@ -211,14 +213,15 @@ gender_plot
 
 # Export in 5x7
 
-# For the next visualizaion we will need to reload the original Dracula_adaptations dataset because # we previously deleted one of the columns in the dplyr section
+# For the next visualizaion we will need to reload the original Dracula_adaptations dataset because
+# we previously deleted one of the columns in the dplyr section
 Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
 
 #Scatterplot of film adaptations of Dracula and The Beetle with ggplot
 
 ggplot(Dracula_adaptations, # data
        aes(x=Year, y=ImdB)) + # x axis and y axis data
-  geom_point(alpha = 0.5, # geom_point creates a scaaterplot, alpha regulates the transparency
+  geom_point(alpha = 0.5, # geom_point creates a scatterplot, alpha regulates the transparency
              size = 3, # size
              color = 'dimgray') + # color
   geom_rug(alpha = 1/2, # geom_rug adds density bars on each axis, alpha regulates transparency 
@@ -249,5 +252,6 @@ ggscatterstats(
 )
 # One of the downsides of this package is that some of its elements cannot be removed from 
 # the visualization (we don't actually need the trend line and the confidence interval). We can 
-# easily remove these in Adobe Illustrator though! 
+# easily remove these in Adobe Illustrator though!
+
 # Export as 5x7
