@@ -12,7 +12,8 @@ library(tidyverse)
 # makes it indispensable for everyone using R.
 
 # The tidyverse collection of packages can be the topic of a full course, so 
-# let's only look at three of its most important packages: readr, dplyr, and ggplot
+# let's only look at some of the main features of three of its most important packages: readr, 
+# dplyr, and ggplot
 
 #### readr#### 
 
@@ -27,18 +28,18 @@ getwd()
 # used to load the dataset. Although using the "Import Dataset" button in the R 
 # Studio environment may be enticing (and it also relies on the readr package), 
 # actually recording the data importing process in the script is best practice. 
-# Let's load in the two datasets that we'll be using in this session, available in the 
-# course Github repository.
+# Let's load in the two datasets that we'll be using in this session, available 
+# in the course Github repository.
 
 Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
 Main_dataset <- read_csv("Datasets/Main dataset.csv")
 
 # This function is not to be confused with the base R function read.csv
-#################################DONE##############################################################
 
 #### dplyr####
 # Dplyr is a core tidyverse package used in data wrangling, or data manipulation.
 # Let's go through some of its most important functions
+
 # select ()
 Dracula_adaptations <- Dracula_adaptations[,-1] # standard base R way
 Dracula_adaptations <- select(Dracula_adaptations, -1) # tidyverse
@@ -46,54 +47,61 @@ Dracula_adaptations <- select(Dracula_adaptations, -X) # benefit of tidyverse wa
 Dracula_adaptations <- Dracula_adaptations %>% select(-1)
 
 # %>% is a so called pipe operator, adapted in dplyr and the tidyverse in general from 
-# the magrittr package 
-# This operator can massively improve the readability of nested code.
+# the magrittr package. This operator can massively improve the readability of nested code.
 # Shortcuts: Ctrl + Shift + M (Windows) or Cmd + Shift + M (Mac)
 # Check the documentation of the function
 ?`%>%`
 
+Dracula_adaptations %>% select(Director:Studio) # you can use the colon operator to select
+# a range spanning multiple columns
 
-# try out the same with : -(:) to select multiple columns
-# try ends_with and starts_with
+# The filter function subsets a data frame according to certain conditions that you specify
+# In the expression below, only the observations that have the value 1957 in the Year column are 
+# retained
 
-??filter
 Dracula_adaptations %>% 
   filter(Year == 1957) %>% 
   select(Title:Year)
 
-# very close to the subset function
+# The arrange function arranges the rows according to the values of a particular column. Very 
+# similar to the Excel sort function. The expression below arranges the Dracula_adaptations data
+# frame so that the years are in a descending order.
 Dracula_adaptations %>% 
-  arrange(desc(Year)) # do just year and then do desc(year)
+  arrange(desc(Year)) 
 
+# The rename function changes the names of the variables/columns. 
 rename(Dracula_adaptations, IMDB = ImdB)
 
-#mutate( )
-#group_by()
-#Dracula_adaptations %>% 
-#  summarise()
-# This is pretty much everything we can do with these two data sets, I will mention some 
-# of the other dplyr functions during some of the next sessions.
-
-# Cleaning up column names so that they fit the tidyverse style guide
+# We'll go on a brief digression here connected with renaming column names. The janitor package
+# can help us clean up the column names so that they fit the tidyverse style guide
 library(janitor)
-# Original names
+
+# We can use the colnames function to see the original column names
 colnames(Dracula_adaptations)
+
+# The following expression will change the names. This is probably a bad example because the names
+# were pretty clean in the first place, but you get the idea. 
 
 Dracula_adaptations %>% 
   clean_names() %>% 
   colnames()
 
+# This is enough for now, some of the other dplyr functions will be mentioned in the later sessions.
+
+# We can save the new, freshly wrangled dataframes either with the base R write.csv function, or 
+# preferably with the fwrite function from the data.table package.
+
 data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
-?fwrite
+?fwrite # check the documentation
 
 # data.table::fwrite() to write CSV files is much faster than the base R write.csv(), using more 
 # CPU cores
 
 #### ggplot2####
 # The ggplot2 package is the tidyverse version of the base R plot function, but is much more 
-# powerful and visually sophisticated. The amount of variations possible with the package are
+# powerful and visually sophisticated. 
 
-# Let's load one of the datasets that come with R to illustrate the power of the package
+# Let's load one of the datasets that come with R to illustrate the power of the package.
 data(mtcars)
 str(mtcars)
 
@@ -159,21 +167,15 @@ corr_plot
 #### Package of the week####
 # ggstatsplot
 
-# This package aims to combine complex statistical  
+# This package aims to combine complex statistical operations with clear visualizations in the 
+# same package.
 
 # Loading the package
 library(ggstatsplot)
 
 #use this to discourage R from using scientific notation
 options(scipen = 10000)
-library(tidyverse)
 
-# We need to reload the original Dracula_adaptations dataset because we previously 
-# deleted one of the columns in the dplyr section
-
-Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
-
-options(scipen = 10000)
 # Taking care of the incomplete factor labels
 # Gender column
 Main_dataset$Gender <- as.factor(Main_dataset$Gender)
@@ -187,7 +189,7 @@ levels(Main_dataset$`Bestseller?`)[1] <- "No"
 levels(Main_dataset$`Bestseller?`)[2] <- "Yes"
 Main_dataset$`Bestseller?`
 
-set.seed(123)
+set.seed(123) # for reproducibility (there is a dose)
 
 library(ggstatsplot)                 
 gender_plot <- ggbetweenstats( # there are other functions available at the package manual website
@@ -203,7 +205,11 @@ gender_plot
 
 # Export in 5x7
 
+# For the next visualizaion we will need to reload the original Dracula_adaptations dataset because # we previously deleted one of the columns in the dplyr section
+Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
+
 #Scatterplot of film adaptations of Dracula and The Beetle with ggplot
+
 ggplot(Dracula_adaptations, # data
        aes(x=Year, y=ImdB)) + # x axis and y axis data
   geom_point(alpha = 0.5, # geom_point creates a scaaterplot, alpha regulates the transparency
