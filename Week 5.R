@@ -31,6 +31,7 @@ getwd()
 # Let's load in the two datasets that we'll be using in this session, available 
 # in the course Github repository.
 
+# I go into a bit more detail about the datasets in the respective youtube videos.
 Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
 Main_dataset <- read_csv("Datasets/Main dataset.csv")
 
@@ -103,7 +104,7 @@ data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
 
 # Let's load one of the datasets that come with R to illustrate the power of the package.
 data(mtcars)
-str(mtcars)
+str(mtcars) # see the contents of the dataset
 
 ?mtcars # check the documentation of the dataset
 
@@ -113,10 +114,13 @@ mtcars$vs <- as.factor(mtcars$vs)
 mtcars$am <- as.factor(mtcars$am) 
 
 mtcars$am # check factor levels
-levels(mtcars$am)[1] <- "Automatic"
+levels(mtcars$am)[1] <- "Automatic" 
 levels(mtcars$am)[2] <- "Manual"
 
-# 
+# Instead of just showing 0 and 1, the code above makes the factor labels more intelligible
+
+# Here is a plot that is deliberately a bit of an overkill to illustrate as much as possible of 
+# what ggplot can do.
 ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
                    size = mpg, # the size of the datapoints dictated by mpg variable
                    color = cyl, # color dictated by color variable (factor, hence discrete colors,
@@ -135,18 +139,21 @@ ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
 #### ggpubr####
 library(ggpubr)
 
-# Although not a part of the tidyverse collection of packages, this package is made by 
-# Hadley Wickham, the founder of the tidyverse collection of packages, so it fits them 
-# well. The main focus of the package is publication level quality. 
+# Although not officially a part of the tidyverse collection of packages, this package is made
+# by Hadley Wickham, one of the founders of the tidyverse collection of packages, so it fits them 
+# well. The main focus of the package is publication level quality of the plots it produces.
 
 # The following visualization will present the correlation of the Goodreads and Open Syllabus data
+# Use this to discourage R from using scientific notation (i.e. show 10000 as 10000 not 1e+04 )
 options(scipen = 10000)
-str(Main_dataset)
+str(Main_dataset) # Check the structure of the dataset
 
+# Convert relevant variables to factors or numberics respectively
 Main_dataset$Ratings <- as.numeric(Main_dataset$Ratings)
 Main_dataset$Syllabi <- as.numeric(Main_dataset$Syllabi)
 Main_dataset$`Bestseller?` <- as.factor(Main_dataset$`Bestseller?`)
 
+# The main purpose of this visualization is creating a correlation plot between the data 
 corr_plot <- ggscatter(Main_dataset, # data 
                        x = "Ratings", # x axis label
                        y = "Syllabi", # y axis label
@@ -168,12 +175,11 @@ corr_plot
 # ggstatsplot
 
 # This package aims to combine complex statistical operations with clear visualizations in the 
-# same package.
+# same package. The package vignette is excellent and you can check it for additional information!
 
 # Loading the package
 library(ggstatsplot)
 
-#use this to discourage R from using scientific notation
 options(scipen = 10000)
 
 # Taking care of the incomplete factor labels
@@ -206,7 +212,7 @@ gender_plot
 # Export in 5x7
 
 # For the next visualizaion we will need to reload the original Dracula_adaptations dataset because # we previously deleted one of the columns in the dplyr section
-Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
+Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
 
 #Scatterplot of film adaptations of Dracula and The Beetle with ggplot
 
@@ -224,6 +230,7 @@ ggplot(Dracula_adaptations, # data
 ?geom_rug
 
 # Export in 5x7 resolution
+
 #Scatterplot of film adaptations of Dracula and The Beetle with ggstatsplot
 
 ggscatterstats( 
@@ -240,5 +247,7 @@ ggscatterstats(
   xfill = "dimgray", # color fill for x-axis marginal distribution
   yfill = "dimgray" # color fill for y-axis marginal distribution
 )
-
+# One of the downsides of this package is that some of its elements cannot be removed from 
+# the visualization (we don't actually need the trend line and the confidence interval). We can 
+# easily remove these in Adobe Illustrator though! 
 # Export as 5x7
