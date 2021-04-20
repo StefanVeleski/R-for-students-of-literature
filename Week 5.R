@@ -1,7 +1,7 @@
 #### tidyverse####
 
 # The tidyverse is a collection of packages that streamline and optimize 
-# certain data procedures in data science. 
+# certain data analysis procedures in data science. 
 library(tidyverse)
 
 # The components of the package are visible after loading it with the library function
@@ -16,34 +16,47 @@ library(tidyverse)
 
 #### readr#### 
 
-# The readr package is one of the most commonly used tidyverse package, and is often
+# The readr package is one of the most commonly used tidyverse packages, and is often
 # the default way of loading data into R. 
+
 # Let's first set the working directory
 setwd("C:/Users/Stefan/OneDrive - MUNI/Github/R-for-students-of-literature")
 getwd()
+
 # For the sake of reproducibility it is often preferable to record the process 
-# used to load the dataset.
+# used to load the dataset. Although using the "Import Dataset" button in the R 
+# Studio environment may be enticing (and it also relies on the readr package), 
+# actually recording the data importing process in the script is best practice. 
+# Let's load in the two datasets that we'll be using in this session, available in the 
+# course Github repository.
 
-Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
-Main_dataset <- read.csv("Datasets/Main dataset.csv")
+Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
+Main_dataset <- read_csv("Datasets/Main dataset.csv")
 
-?read.csv # this uses base R, but let's use readr, which is a part of the 
-#tidyverse universe
-
-# problem from loading data in R with different tools, so make sure this is 
-# specified in the script that you will be using!
+# This function is not to be confused with the base R function read.csv
+#################################DONE##############################################################
 
 #### dplyr####
-# select function
+# Dplyr is a core tidyverse package used in data wrangling, or data manipulation.
+# Let's go through some of its most important functions
+# select ()
 Dracula_adaptations <- Dracula_adaptations[,-1] # standard base R way
 Dracula_adaptations <- select(Dracula_adaptations, -1) # tidyverse
 Dracula_adaptations <- select(Dracula_adaptations, -X) # benefit of tidyverse way, explicit naming
 Dracula_adaptations <- Dracula_adaptations %>% select(-1)
 
+# %>% is a so called pipe operator, adapted in dplyr and the tidyverse in general from 
+# the magrittr package 
+# This operator can massively improve the readability of nested code.
+# Shortcuts: Ctrl + Shift + M (Windows) or Cmd + Shift + M (Mac)
+# Check the documentation of the function
+?`%>%`
+
+
 # try out the same with : -(:) to select multiple columns
 # try ends_with and starts_with
-# try explicitly naming each of the columns we may need
 
+??filter
 Dracula_adaptations %>% 
   filter(Year == 1957) %>% 
   select(Title:Year)
@@ -70,22 +83,23 @@ Dracula_adaptations %>%
   clean_names() %>% 
   colnames()
 
-# this is not an assignment operator! 
-# %>% Ctrl + Shift + M (Windows) or Cmd + Shift + M (Mac)
-# pull out this visualization at this point
-# This should be your preferred 
-
 data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
 ?fwrite
 
-# data.table::fwrite() to write CSV files is SIGNIFICANTLY faster than the write.csv(). 
+# data.table::fwrite() to write CSV files is much faster than the base R write.csv(), using more 
+# CPU cores
 
-#### ggplot####
+#### ggplot2####
+# The ggplot2 package is the tidyverse version of the base R plot function, but is much more 
+# powerful and visually sophisticated. The amount of variations possible with the package are
 
+# Let's load one of the datasets that come with R to illustrate the power of the package
 data(mtcars)
 str(mtcars)
-?mtcars
 
+?mtcars # check the documentation of the dataset
+
+# First we need to convert some of the variables into factors 
 mtcars$cyl <- as.factor(mtcars$cyl) 
 mtcars$vs <- as.factor(mtcars$vs) 
 mtcars$am <- as.factor(mtcars$am) 
@@ -94,22 +108,30 @@ mtcars$am # check factor levels
 levels(mtcars$am)[1] <- "Automatic"
 levels(mtcars$am)[2] <- "Manual"
 
-# Do this first!
-ggplot(mtcars, aes(disp, hp, size = mpg, color = cyl, shape = am)) +
-  geom_point(alpha = .3) +
-  labs(
+# 
+ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
+                   size = mpg, # the size of the datapoints dictated by mpg variable
+                   color = cyl, # color dictated by color variable (factor, hence discrete colors,
+                   # not shades of a single color)
+                   shape = am)) + # shape dictated
+  geom_point(alpha = .3) + # geom_point - scatterplot, alpha - transparency
+  labs( # The labels for each element of the legend
     title = "Control Legend Titles w/ labs ()",
     size = "Miles per \nGallon",
     color = "Cylinders", 
-    shape = "Transmission"
+    shape = "Transmission" 
   )
+
+# Export in 5x7
 
 #### ggpubr####
 library(ggpubr)
 
-# Although not a part of the tidyverse collection of packages, this package is a
-# 
-# Correlation of Goodreads and Open Syllabus data
+# Although not a part of the tidyverse collection of packages, this package is made by 
+# Hadley Wickham, the founder of the tidyverse collection of packages, so it fits them 
+# well. The main focus of the package is publication level quality. 
+
+# The following visualization will present the correlation of the Goodreads and Open Syllabus data
 options(scipen = 10000)
 str(Main_dataset)
 
@@ -117,27 +139,27 @@ Main_dataset$Ratings <- as.numeric(Main_dataset$Ratings)
 Main_dataset$Syllabi <- as.numeric(Main_dataset$Syllabi)
 Main_dataset$`Bestseller?` <- as.factor(Main_dataset$`Bestseller?`)
 
-corr_plot <- ggscatter(Main_dataset,
-                       x = "Ratings", 
-                       y = "Syllabi",
-                       add = "reg.line", conf.int = TRUE,
-                       color = "dimgray",
-                       xscale = "log10",
-                       yscale = "log10",
-                       cor.coef = TRUE, 
-                       cor.method = "pearson",
-                       title = "Correlation of Open Syllabus and Goodreads data",
-                       xlab = "Number of Goodreads ratings (log)",
-                       ylab = "Open Syllabus"
+corr_plot <- ggscatter(Main_dataset, # data 
+                       x = "Ratings", # x axis label
+                       y = "Syllabi", # y axis label
+                       add = "reg.line", conf.int = TRUE, # adding regression line and c. interval
+                       color = "dimgray", # color (color code reference sheet available on ELF)
+                       xscale = "log10", # making the x axis logarithmic
+                       yscale = "log10", # making the y axis logarithmic
+                       cor.coef = TRUE, # print correlation coefficient in the plot itself?
+                       cor.method = "pearson", # specifying the correlation method used 
+                       title = "Correlation of Open Syllabus and Goodreads data", # title
+                       xlab = "Number of Goodreads ratings (log)", # x axis label
+                       ylab = "Open Syllabus" # y axis label
 )
 corr_plot
 
-#### Package of the week####
+# Export in 5x7
 
+#### Package of the week####
 # ggstatsplot
 
-# We had a lot of packages this week, but this one is different enough to warrant 
-# inclusion as package of the week.
+# This package aims to combine complex statistical  
 
 # Loading the package
 library(ggstatsplot)
@@ -149,7 +171,7 @@ library(tidyverse)
 # We need to reload the original Dracula_adaptations dataset because we previously 
 # deleted one of the columns in the dplyr section
 
-Main_dataset <- read_csv("Datasets/Main dataset.csv")
+Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
 
 options(scipen = 10000)
 # Taking care of the incomplete factor labels
@@ -168,29 +190,35 @@ Main_dataset$`Bestseller?`
 set.seed(123)
 
 library(ggstatsplot)                 
-gender_plot <- ggbetweenstats(
-  data = Main_dataset,
-  x = Gender,
-  y = Ratings,
-  xlab = "The Author's Gender",
-  ylab = "Number of Ratings (log)"
+gender_plot <- ggbetweenstats( # there are other functions available at the package manual website
+  data = Main_dataset, # data
+  x = Gender, # data for x axis
+  y = Ratings, # data for y axis
+  title = "Gender and the present day popularity of late Victorian novels", # Title
+  xlab = "The Author's Gender", # x axis label
+  ylab = "Number of Ratings (log)" # y axis label
 ) +
-  scale_y_log10()
+  scale_y_log10() # making the y axis logarithmic
 gender_plot
 
+# Export in 5x7
+
 #Scatterplot of film adaptations of Dracula and The Beetle with ggplot
-ggplot(Dracula_adaptations, aes(x=Year, y=ImdB)) +
-  geom_point(alpha = 0.5, size = 3, color = 'dimgray') +
-  geom_rug(alpha = 1/2, position = "jitter") +
-  labs(title = "Film adaptations of Dracula", 
-       x = "Year", 
-       y ="Number of IMDB Ratings")
+ggplot(Dracula_adaptations, # data
+       aes(x=Year, y=ImdB)) + # x axis and y axis data
+  geom_point(alpha = 0.5, # geom_point creates a scaaterplot, alpha regulates the transparency
+             size = 3, # size
+             color = 'dimgray') + # color
+  geom_rug(alpha = 1/2, # geom_rug adds density bars on each axis, alpha regulates transparency 
+           position = "jitter") + # adding jittering for better readability. 
+  labs(title = "Film adaptations of Dracula and the Beetle", # title
+       x = "Year", # x axis label
+       y ="Number of IMDB Ratings") # y axis label
+# Check the documentation of geom_rug
+?geom_rug
 
+# Export in 5x7 resolution
 #Scatterplot of film adaptations of Dracula and The Beetle with ggstatsplot
-
-# We need to reload the original Dracula_adaptations dataset because we previously 
-# deleted one of the columns in the dplyr section
-Dracula_adaptations <- read.csv("Datasets/Dracula adaptations.csv")
 
 ggscatterstats( 
   data = Dracula_adaptations, # data frame used
@@ -206,3 +234,5 @@ ggscatterstats(
   xfill = "dimgray", # color fill for x-axis marginal distribution
   yfill = "dimgray" # color fill for y-axis marginal distribution
 )
+
+# Export as 5x7
