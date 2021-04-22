@@ -46,9 +46,9 @@ nrc_joy <- get_sentiments("nrc") %>% # tidy text function that extracts the valu
 # The code below simply counts the most common words in Persuasion that correspond to the joy
 # emotion in the NRC sentiment lexicon
 
-austen_tidy_texts %>%
+test <- austen_tidy_texts %>%
   filter(title == "Persuasion") %>% # only selecting Persuasion from the rest of the books
-  inner_join(nrc_joy) %>% # combining two tables together (show data wrangling cheat sheet)
+  inner_join(nrc_joy) %>% # combining two tables together (see data wrangling cheat sheet)
   count(word, sort = TRUE) # counting the words
 
 jane_austen_sentiment <- austen_tidy_texts %>%
@@ -66,20 +66,20 @@ ggplot(jane_austen_sentiment, aes(index, sentiment, fill = title)) +
 # Most common positive and negative words
 
 bing_word_counts <- austen_tidy_texts %>%
-  inner_join(get_sentiments("bing")) %>%
-  count(word, sentiment, sort = TRUE) %>%
+  inner_join(get_sentiments("bing")) %>% #retain only words that exist in both 
+  count(word, sentiment, sort = TRUE) %>% 
   ungroup()
 
 bing_word_counts %>%
   group_by(sentiment) %>%
-  slice_max(n, n = 10) %>% 
+  slice_max(n, n = 10) %>%  # slice n to retain top 10
   ungroup() %>%
   mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word, fill = sentiment)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~sentiment, scales = "free_y") +
-  labs(x = "Contribution to sentiment",
-       y = NULL)
+  ggplot(aes(n, word, fill = sentiment)) + # n x axis, word y axis, color according to sentiment
+  geom_col(show.legend = FALSE) + # barplot, no legends
+  facet_wrap(~sentiment, scales = "free_y") + # facet wrapped along sentiment, free y scale
+  labs(x = "Contribution to sentiment", # x label
+       y = NULL) # no y label
 
 # Export in 5x10
 
@@ -114,12 +114,11 @@ austen_tidy_texts %>%
 library(zoo)
 library(syuzhet)
 
-# The way that the sentiment lexicons in question were compiled influences the 
-# precision of the method on texts from different periods. For example, the syuzhet
-# sentiment lexicon was collected...
+# One of the more popular specialized sentiment analysis packages. Available dictionaries: 
+# bing, afinn, nrc, syuzhet
 
 # Getting a particular novel as a single character string, ready for syuzhet analysis
-# Let's first load the austen novels from scratch, so that we have a clean slate
+# Let's first load the Austen novels from scratch, so that we have a clean slate
 
 austen_tidy_texts <- gutenberg_download(austen_meta$gutenberg_id,
                                         meta_fields = "title")
@@ -171,7 +170,7 @@ dracula_text <- get_text_as_string("Text files/Dracula.txt") # This is a syuzhet
 # Sentimentr
 
 # A sentiment analysis package that is more sophisticated in several ways than both tidytext and
-# syuzhet.
+# syuzhet. Available dictionaries: 
 
 library(sentimentr)
 library(magrittr)
