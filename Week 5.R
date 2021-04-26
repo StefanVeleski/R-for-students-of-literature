@@ -197,7 +197,7 @@ levels(Main_dataset$`Bestseller?`)[1] <- "No"
 levels(Main_dataset$`Bestseller?`)[2] <- "Yes"
 Main_dataset$`Bestseller?`
 
-set.seed(123) # for reproducibility (there is a dose)
+set.seed(123) # for reproducibility (there is a dose of randomness involved, i.e. jittered points)
 
 library(ggstatsplot)                 
 gender_plot <- ggbetweenstats( # there are other functions available at the package website
