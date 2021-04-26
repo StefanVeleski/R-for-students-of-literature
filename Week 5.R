@@ -191,12 +191,6 @@ levels(Main_dataset$Gender)[1] <- "Female"
 levels(Main_dataset$Gender)[2] <- "Male"
 levels(Main_dataset$Gender)[3] <- "Unknown"
 
-# Bestseller? column
-Main_dataset$`Bestseller?` <- as.factor(Main_dataset$`Bestseller?`)
-levels(Main_dataset$`Bestseller?`)[1] <- "No"
-levels(Main_dataset$`Bestseller?`)[2] <- "Yes"
-Main_dataset$`Bestseller?`
-
 set.seed(123) # for reproducibility (there is a dose of randomness involved, i.e. jittered points)
 
 library(ggstatsplot)                 
