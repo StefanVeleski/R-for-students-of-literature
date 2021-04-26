@@ -7,11 +7,12 @@ library(gutenbergr)
 library(tidytext)
 library(textdata)
 
-hardy_meta <- gutenberg_works(author == "Hardy, Thomas") # Download metadata for Hardy's novels
+hardy_meta <- gutenberg_works(author == "Hardy, Thomas") # Download metadata for Hardy's works
 hardy_meta <- hardy_meta %>% 
-  slice(c(1,2,3,4,5,6,7,8,10,11,13,18,22,23,24))
+  slice(c(1,2,3,4,5,6,7,8,10,11,13,18,22,23,24)) # Manually selecting Hardy's novels (metadata
+# about the type of work not included on Project Gutenberg)
 
-austen_meta <- gutenberg_works(author == "Austen, Jane") # Download metadata for Austen's novels
+austen_meta <- gutenberg_works(author == "Austen, Jane") # Download metadata for Austen's works
 austen_meta <- austen_meta %>%  # Cutting off two compilation works that are not necessary 
   slice(1:8)
 
@@ -22,8 +23,8 @@ hardy_tidy_texts <- gutenberg_download(hardy_meta$gutenberg_id,
 austen_tidy_texts <- gutenberg_download(austen_meta$gutenberg_id,
                                   meta_fields = "title")
 
-# This tokenizes the full text by individual words, but also provides additional metadata about 
-# the line and the chapter that the word is located in 
+# The following code tokenizes the full text by individual words, but also provides additional 
+# metadata about the line and the chapter that the word is located in 
 austen_tidy_texts <- austen_tidy_texts %>%
   group_by(title) %>%
   mutate(
@@ -46,7 +47,7 @@ nrc_joy <- get_sentiments("nrc") %>% # tidy text function that extracts the valu
 # The code below simply counts the most common words in Persuasion that correspond to the joy
 # emotion in the NRC sentiment lexicon
 
-test <- austen_tidy_texts %>%
+austen_tidy_texts %>%
   filter(title == "Persuasion") %>% # only selecting Persuasion from the rest of the books
   inner_join(nrc_joy) %>% # combining two tables together (see data wrangling cheat sheet)
   count(word, sort = TRUE) # counting the words
@@ -83,6 +84,8 @@ bing_word_counts %>%
 
 # Export in 5x10
 
+# Adding miss as a custom stopword to the stopwords lexicon contained in the tidytext package
+# This will be removed from the visualization later on
 custom_stop_words <- bind_rows(tibble(word = c("miss"),  
                                       lexicon = c("custom")), 
                                stop_words)
