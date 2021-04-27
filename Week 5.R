@@ -157,8 +157,8 @@ Main_dataset$Syllabi <- as.numeric(Main_dataset$Syllabi)
 Main_dataset$`Bestseller?` <- as.factor(Main_dataset$`Bestseller?`)
 
 corr_plot <- ggscatter(Main_dataset, # data 
-                       x = "Ratings", # x axis label
-                       y = "Syllabi", # y axis label
+                       x = "Ratings", # x axis 
+                       y = "Syllabi", # y axis 
                        add = "reg.line", conf.int = TRUE, # adding regression line and c. interval
                        color = "dimgray", # color (color code reference sheet available on ELF)
                        xscale = "log10", # making the x axis logarithmic
