@@ -47,6 +47,9 @@ hardy_tf_idf %>%
   labs(x = NULL, y = "tf-idf", # labels
        title = "Highest tf-idf words in Thomas Hardy's novels")
 
+# export as 6x18, but only temporarily (the names of the novels need to be trimmed and for the 
+# final visualization)
+
 # Structural topic modeling uses metadata about the collection of texts to improve the process
 library(quanteda) # used to create the structure
 library(stm) # structured topic modeling
@@ -80,6 +83,8 @@ td_beta %>%
        title = "Highest word probabilities for each topic",
        subtitle = "Different words are associated with different topics")
 
+# export as 6x9
+
 # In which documents (novels) can the topics be found?
 
 td_gamma <- tidy(topic_model, matrix = "gamma",                     
@@ -92,6 +97,8 @@ ggplot(aes(gamma, fill = as.factor(topic))) + # histogram so only one variable n
   labs(title = "Distribution of document probabilities for each topic",
        subtitle = "Each topic is associated with 1-3 novels",
        y = "Number of novels", x = expression(gamma))
+
+#export as 6x9
 
 #### Tidymodels package####
 library(topicmodels)
@@ -155,6 +162,7 @@ top_terms %>%
   facet_wrap(~ topic, scales = "free") +
   scale_y_reordered()
 
+#export as 6x9
 chapters_gamma <- tidy(chapters_lda, matrix = "gamma")
 chapters_gamma
 
@@ -171,6 +179,7 @@ chapters_gamma %>%
   facet_wrap(~ title) +
   labs(x = "topic", y = expression(gamma))
 
+#export as 6x9
 chapter_classifications <- chapters_gamma %>%
   group_by(title, chapter) %>%
   slice_max(gamma) %>%
@@ -199,6 +208,7 @@ assignments <- assignments %>%
 
 assignments
 
+# Visualizing a confusion matrix
 library(scales)
 
 assignments %>%
@@ -216,6 +226,7 @@ assignments %>%
        y = "Book words came from",
        fill = "% of assignments")
 
+#
 wrong_words <- assignments %>%
   filter(title != consensus)
 
@@ -273,6 +284,8 @@ top_terms_mallet %>%
   facet_wrap(~ topic, scales = "free") +
   scale_y_reordered()
 
+#export as 6x9
+
 # document-topic pairs
 tidy_mallet_b <- tidy(mallet_model, matrix = "gamma")
 tidy_mallet_b <- tidy_mallet_b %>% 
@@ -284,3 +297,4 @@ tidy_mallet_b %>%
   geom_boxplot() +
   facet_wrap(~ title) +
   labs(x = "topic", y = expression(gamma))
+#export as 6x9

@@ -66,7 +66,9 @@ library(data.table)
 final_MATTR_values<- setDT(final_MATTR_values, keep.rownames = TRUE)[]
 colnames(final_MATTR_values)[1] <- "Title"
 
-# We now have the final MATTR values for each of Hardy's novels. We will also need another variable # of measurements, as clustering needs at least two. We will now add sentiment related information # to the dataframe, which we did during the 8th session.
+# We now have the final MATTR values for each of Hardy's novels. We will also need another variable
+# of measurements, as clustering needs at least two. We will now add sentiment related information
+# to the dataframe, which we did during the 8th session.
 
 library(sentimentr)
 library(magrittr)
