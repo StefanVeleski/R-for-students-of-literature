@@ -1,8 +1,7 @@
 #### Tidytext sentiment analysis####
-
+# Loading in the necessary packages
 library(tidyverse)
 library(syuzhet)
-library(stringr)
 library(gutenbergr)
 library(tidytext)
 library(textdata)
@@ -164,9 +163,8 @@ plot(persuasion_list$x[persuasion_sample],
 # But what if you don't want to download texts from Gutenberger, but you'd like to import
 # them directly, as .txt files?
 
-dracula_text <- get_text_as_string("Text files/Dracula.txt") # This is a syuzhet function that 
-# immediately pastes the text together, basically skipping the scan function we did last time in 
-# base R, which produced somewhat unsatisfactory results! 
+dracula_text <- get_text_as_string("Text files/Week 8/Dracula.txt") # This is a syuzhet function 
+# that immediately pastes the text together, basically skipping the scan function we did last time # in base R, which produced somewhat unsatisfactory results! 
 
 #### Package of the week####
 

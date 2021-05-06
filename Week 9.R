@@ -1,15 +1,17 @@
+#### Introduction####
 # Topic modeling is a widespread computational method of discovering latent topics 
-# in a collection of documents. Each document is assigned a probability of  belonging to a latent 
-# theme or “topic”.
+# in a collection of documents. Each document is assigned a probability of  belonging 
+# to a latent theme or “topic”.
 
 #### stm package####
-# Using metadata about the collection of texts to improve the topic model
-# Loading in required packages
+
+# We first need to load in the texts used in the analysis
+# Let's load in the required packages
 library(tidyverse)
 library(gutenbergr)
 library(tidytext)
 
-# Download data
+# Downloading the data
 hardy_meta <- gutenberg_works(author == "Hardy, Thomas") # Download metadata for Hardy's works
 hardy_meta <- hardy_meta %>% 
   slice(c(1,2,3,4,5,6,7,8,10,11,13,18,22,23,24))
@@ -38,13 +40,14 @@ hardy_tf_idf %>%
   mutate(word = reorder_within(word, tf_idf, title)) %>% # show words in the same order as tf_idf
   ggplot(aes(word, tf_idf, fill = title)) + #word x axis, tf_idf y axis, color tied to book
   geom_col(alpha = 0.8, show.legend = FALSE) + #barplot, transparency 0.8, no legend
-  facet_wrap(~ title, scales = "free", ncol = 3) + #facet according to title, free scales, 3 cols
+  facet_wrap(~ title, scales = "free", ncol = 5) + #facet according to title, free scales, 3 cols
   scale_x_reordered() +
   coord_flip() + #flip plots so that they are horizontal
   theme(strip.text=element_text(size=11)) + # indicating theme for better aesthetics
   labs(x = NULL, y = "tf-idf", # labels
        title = "Highest tf-idf words in Thomas Hardy's novels")
 
+# Structural topic modeling uses metadata about the collection of texts to improve the process
 library(quanteda) # used to create the structure
 library(stm) # structured topic modeling
 
@@ -82,7 +85,8 @@ td_beta %>%
 td_gamma <- tidy(topic_model, matrix = "gamma",                     
                  document_names = rownames(hardy_dfm))
 
-ggplot(td_gamma, aes(gamma, fill = as.factor(topic))) + # histogram so only one variable needed
+td_gamma %>% 
+ggplot(aes(gamma, fill = as.factor(topic))) + # histogram so only one variable needed
   geom_histogram(alpha = 0.8, show.legend = FALSE) + 
   facet_wrap(~ topic, ncol = 3) + # facet wrap according to topic
   labs(title = "Distribution of document probabilities for each topic",
@@ -100,7 +104,7 @@ titles <- c("Dracula",
 books <- gutenberg_works(title %in% titles) %>%
   gutenberg_download(meta_fields = "title")
 
-
+??`%in%`
 # divide into documents, each representing one chapter
 by_chapter <- books %>%
   group_by(title) %>%
@@ -143,9 +147,7 @@ top_terms <- chapter_topics %>%
   arrange(topic, -beta)
 
 top_terms
-
-library(ggplot2)
-
+str(top_terms)
 top_terms %>%
   mutate(term = reorder_within(term, beta, topic)) %>%
   ggplot(aes(beta, term, fill = factor(topic))) +
@@ -224,9 +226,6 @@ wrong_words %>%
   ungroup() %>%
   arrange(desc(n))
 
-word_counts %>%
-  filter(word == "flopson")
-
 ####Package of the week####
 # We will also use the mallet package 
 
@@ -234,7 +233,8 @@ word_counts %>%
 # for it. This means that we will need to install the appropriate version of Java, available
 # here: https://www.java.com/en/download/manual.jsp 
 
-# You are likely to encounter an error when running the package in  can be found here: 
+# You are likely to encounter an error when running the package. The solution can be found in the
+# following link (I've included it in the code below)
 # https://www.r-bloggers.com/2012/08/how-to-load-the-rjava-package-after-the-error-java_home-cannot-be-determined-from-the-registry/
 
 Sys.setenv(JAVA_HOME = "C:/Program Files/Java/jre1.8.0_291")
