@@ -1,0 +1,50 @@
+---
+title: "Package of the week - gganimate"
+author: "Stefan Veleski"
+date: "13/5/2021"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 4
+    theme: journal
+    df_print: paged
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Animate your ggplot2 plots!
+
+This package extends the capabilities of ggplot to include animation
+of plots according to certain variables and export them in the .gif
+format. Lets first load the required packages.
+
+```{r Loading packages, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(tidyverse)
+library(gganimate)
+library(gapminder)
+library(gifski)
+```
+
+# Main code
+
+```{r Main code chunk, message=FALSE, warning=FALSE, paged.print=FALSE}
+gapminder %>% 
+  ggplot(aes(gdpPercap, lifeExp, size = pop, colour = country)) + 
+  geom_point(alpha = 0.7, show.legend = FALSE) + # scatterplot, transparency, no legend
+  scale_colour_manual(values = country_colors) + # manually setting colors to those in gapminder pckg
+  scale_size(range = c(2, 12)) + # setting the size of the datapoints
+  scale_x_log10() + #x is on a log scale
+  facet_wrap(~continent) + # facet wrapping according to the continent
+  # What follows is specific for the gganimate package
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  transition_time(year) + # variable that dictates the change across time
+  ease_aes('linear') # progression of movement, accelerating, decelerating, or linear
+```
+
+# Exporting the output of the package
+
+```{r Saving output, message=FALSE, warning=FALSE, paged.print=FALSE}
+anim_save("GDP.gif", animation = last_animation(), path = "C:/Users/Stefan/OneDrive - MUNI/Github/R-for-students-of-literature")
+```

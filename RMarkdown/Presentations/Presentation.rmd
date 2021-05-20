@@ -1,0 +1,42 @@
+---
+title: "Simple presentation"
+author: "Stefan Veleski"
+date: "13/5/2021"
+bibliography: references.bib
+csl: MLA8.csl
+link-citations: yes
+linkcolor: blue
+output:
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Citation examples
+
+- When it comes to cultural products, it is easy to distinguish bad from great, but hard to distinguish good from great [@LaBar2006] 
+- When quality appraisal is hard, we turn to social influence [@Salganik2006]
+- Scholars are more susceptible to prestige biases [@DeWall2011]
+
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
+## Slide with figure
+
+```{r MUNI logo, echo=FALSE, fig.cap="The official logo of Masaryk University", out.width = '50%'}
+knitr::include_graphics("C:/Users/Stefan/OneDrive - MUNI/Github/R-for-students-of-literature/RMarkdown/Presentations/MUNI.png")
+```
+
+## References
