@@ -3,8 +3,8 @@ title: "Final project template"
 author: "Stefan Veleski"
 date: "5/27/2021"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 bibliography: bibliography.bib
 ---
 
