@@ -1,5 +1,5 @@
 ---
-title: "Final project template"
+title: "The Name of Your Project"
 author: "Stefan Veleski"
 date: "5/27/2021"
 output:

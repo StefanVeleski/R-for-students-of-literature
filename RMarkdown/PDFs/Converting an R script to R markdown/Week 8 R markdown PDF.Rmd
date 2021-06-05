@@ -3,13 +3,13 @@ title: "Week 8: Sentiment analysis"
 author: "Stefan Veleski"
 date: "13/5/2021"
 output:
-  pdf_document: default
   html_document:
     toc: TRUE
     toc_float: TRUE
     toc_depth: 4
     theme: journal
     df_print: paged
+  pdf_document: default
 editor_options:
   markdown:
     wrap: 72

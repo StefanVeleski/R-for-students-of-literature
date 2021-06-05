@@ -6,8 +6,7 @@ bibliography: references.bib
 csl: MLA8.csl
 link-citations: yes
 linkcolor: blue
-output:
-  ioslides_presentation: default
+output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -16,10 +15,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Citation examples
 
-- When it comes to cultural products, it is easy to distinguish bad from great, but hard to distinguish good from great [@LaBar2006] 
-- When quality appraisal is hard, we turn to social influence [@Salganik2006]
-- Scholars are more susceptible to prestige biases [@DeWall2011]
-
+-   When it comes to cultural products, it is easy to distinguish bad from great, but hard to distinguish good from great [@LaBar2006]
+-   When quality appraisal is hard, we turn to social influence [@Salganik2006]
+-   Scholars are more susceptible to prestige biases [@DeWall2011]
+-   Prestige bias exists [@Chudek2012]
 
 ## Slide with R Output
 
