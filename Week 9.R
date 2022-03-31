@@ -1,7 +1,5 @@
 #### Introduction####
-# Topic modeling is a widespread computational method of discovering latent topics 
-# in a collection of documents. Each document is assigned a probability of  belonging 
-# to a latent theme or “topic”.
+# Topic modeling is a widespread computational method of discovering latent topics in a collection of documents. Each document is assigned a probability of  belonging to a latent theme or “topic”.
 
 #### stm package####
 
@@ -47,8 +45,7 @@ hardy_tf_idf %>%
   labs(x = NULL, y = "tf-idf", # labels
        title = "Highest tf-idf words in Thomas Hardy's novels")
 
-# export as 6x18, but only temporarily (the names of the novels need to be trimmed and for the 
-# final visualization)
+# export as 6x18, but only temporarily (the names of the novels need to be trimmed and for the final visualization)
 
 # Structural topic modeling uses metadata about the collection of texts to improve the process
 library(quanteda) # used to create the structure
@@ -240,13 +237,9 @@ wrong_words %>%
 ####Package of the week####
 # We will also use the mallet package 
 
-# The package is originally written in Javascript, and the package is simply an R wrapper 
-# for it. This means that we will need to install the appropriate version of Java, available
-# here: https://www.java.com/en/download/manual.jsp 
+# The package is originally written in Javascript, and the package is simply an R wrapper for it. This means that we will need to install the appropriate version of Java, available here: https://www.java.com/en/download/manual.jsp 
 
-# You are likely to encounter an error when running the package. The solution can be found in the
-# following link (I've included it in the code below)
-# https://www.r-bloggers.com/2012/08/how-to-load-the-rjava-package-after-the-error-java_home-cannot-be-determined-from-the-registry/
+# You are likely to encounter an error when running the package. The solution can be found in the following link (I've included it in the code below) https://www.r-bloggers.com/2012/08/how-to-load-the-rjava-package-after-the-error-java_home-cannot-be-determined-from-the-registry/
 
 Sys.setenv(JAVA_HOME = "C:/Program Files/Java/jre1.8.0_291")
 library(rJava)
