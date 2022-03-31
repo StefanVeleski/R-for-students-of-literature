@@ -4,8 +4,7 @@ install.packages("cli")
 setwd("C:/Users/Stefan/OneDrive - MUNI/Github/R-for-students-of-literature")
 getwd()
 
-# I have no idea what this does but according to the package creator this removes
-# an error that prevents the installation of the package
+# I have no idea what this does but according to the package creator this removes an error that prevents the installation of the package
 Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")
 devtools::install_github("cutterkom/generativeart")
 library(generativeart)
