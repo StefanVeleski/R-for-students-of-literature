@@ -1,35 +1,24 @@
 #### tidyverse####
 
-# The tidyverse is a collection of packages that streamline and optimize 
-# certain data analysis procedures in data science. 
+# The tidyverse is a collection of packages that streamline and optimize certain data analysis procedures in data science. 
 library(tidyverse)
 
 # The components of the package are visible after loading it with the library function
 
-# The tidyverse often relies on syntax that is a bit different than what we have
-# used so far, which is optimized for data analysis. Hence, many data scientists prefer 
-# it over base R, and its sheer user base and the wealth of material available 
-# makes it indispensable for everyone using R.
+# The tidyverse often relies on syntax that is a bit different than what we have used so far, which is optimized for data analysis. Hence, many data scientists prefer it over base R, and its sheer user base and the wealth of material available makes it indispensable for everyone using R.
 
-# The tidyverse collection of packages can be the topic of a full course, so 
-# let's only look at some of the main features of three of its most important packages: readr, 
-# dplyr, and ggplot
+# The tidyverse collection of packages can be the topic of a full course, so let's only look at some of the main features of three of its most important packages: readr, dplyr, and ggplot
 
 #### readr#### 
 
-# The readr package is one of the most commonly used tidyverse packages, and is often
-# the default way of loading data into R. 
+# The readr package is one of the most commonly used tidyverse packages, and is often the default way of loading data into R. 
 
 # Let's first set the working directory
 setwd("C:/Users/Stefan/OneDrive - MUNI/Github/R-for-students-of-literature")
 getwd()
 
-# For the sake of reproducibility it is often preferable to record the process 
-# used to load the dataset. Although using the "Import Dataset" button in the R 
-# Studio environment may be enticing (and it also relies on the readr package), 
-# actually recording the data importing process in the script is best practice. 
-# Let's load in the two datasets that we'll be using in this session, available 
-# in the course Github repository.
+# For the sake of reproducibility it is often preferable to record the process used to load the dataset. Although using the "Import Dataset" button in the R Studio environment may be enticing (and it also relies on the readr package), actually recording the data importing process in the script is best practice. 
+# Let's load in the two datasets that we'll be using in this session, available in the course Github repository.
 
 # I go into a bit more detail about the datasets in the respective youtube videos.
 Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
@@ -47,8 +36,7 @@ Dracula_adaptations <- select(Dracula_adaptations, -1) # tidyverse
 Dracula_adaptations <- select(Dracula_adaptations, -X) # benefit of tidyverse way, explicit naming
 Dracula_adaptations <- Dracula_adaptations %>% select(-1)
 
-# %>% is a so called pipe operator, adapted in dplyr and the tidyverse in general from 
-# the magrittr package. This operator can massively improve the readability of nested code.
+# %>% is a so called pipe operator, adapted in dplyr and the tidyverse in general from the magrittr package. This operator can massively improve the readability of nested code.
 # Shortcuts: Ctrl + Shift + M (Windows) or Cmd + Shift + M (Mac)
 # Check the documentation of the function
 ?`%>%`
@@ -58,31 +46,26 @@ Dracula_adaptations %>%
   select(Director:Studio) 
 
 # The filter function subsets a data frame according to certain conditions that you specify
-# In the expression below, only the observations that have the value 1957 in the Year column are 
-# retained
+# In the expression below, only the observations that have the value 1957 in the Year column are retained
 
 Dracula_adaptations %>% 
   filter(Year == 1957) %>% 
   select(Title:Year)
 
-# The arrange function arranges the rows according to the values of a particular column. Very 
-# similar to the Excel sort function. The expression below arranges the Dracula_adaptations data
-# frame so that the years are in a descending order.
+# The arrange function arranges the rows according to the values of a particular column. Very similar to the Excel sort function. The expression below arranges the Dracula_adaptations data frame so that the years are in a descending order.
 Dracula_adaptations %>% 
   arrange(desc(Year)) 
 
 # The rename function changes the names of the variables/columns. 
 rename(Dracula_adaptations, IMDB = ImdB)
 
-# We'll go on a brief digression here connected with renaming column names. The janitor package
-# can help us clean up the column names so that they fit the tidyverse style guide
+# We'll go on a brief digression here connected with renaming column names. The janitor package can help us clean up the column names so that they fit the tidyverse style guide
 library(janitor)
 
 # We can use the colnames function to see the original column names
 colnames(Dracula_adaptations)
 
-# The following expression will change the names. This is probably a bad example because the names
-# were pretty clean in the first place, but you get the idea. 
+# The following expression will change the names. This is probably a bad example because the names were pretty clean in the first place, but you get the idea. 
 
 Dracula_adaptations %>% 
   clean_names() %>% 
@@ -90,8 +73,7 @@ Dracula_adaptations %>%
 
 # This is enough for now, some of the other dplyr functions will be mentioned in the later sessions
 
-# We can save the new, freshly wrangled dataframes either with the base R write.csv function, or 
-# preferably with the fwrite function from the data.table package.
+# We can save the new, freshly wrangled dataframes either with the base R write.csv function, or preferably with the fwrite function from the data.table package.
 
 data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
 ?fwrite # check the documentation
@@ -99,8 +81,7 @@ data.table::fwrite(Dracula_adaptations, file = "adaptations.csv")
 # data.table::fwrite() is much faster than the base R write.csv(), since it uses more CPU cores
 
 #### ggplot2####
-# The ggplot2 package is the tidyverse version of the base R plot function, but is much more 
-# powerful and visually sophisticated. 
+# The ggplot2 package is the tidyverse version of the base R plot function, but is much more powerful and visually sophisticated. 
 
 # Let's load one of the datasets that come with R to illustrate the power of the package.
 data(mtcars)
@@ -119,8 +100,7 @@ levels(mtcars$am)[2] <- "Manual"
 
 # Instead of just showing 0 and 1, the code above makes the factor labels more intelligible
 
-# Here is a plot that is deliberately a bit of an overkill to illustrate as much as possible of 
-# what ggplot can do.
+# Here is a plot that is deliberately a bit of an overkill to illustrate as much as possible of what ggplot can do.
 ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
                    size = mpg, # the size of the datapoints dictated by mpg variable
                    color = cyl, # color dictated by color variable (factor, hence discrete colors,
@@ -134,17 +114,14 @@ ggplot(mtcars, aes(disp, hp, # data, variables on x and y axis
     shape = "Transmission" 
   )
 
-# Avoid stuffing this much data in a single plot, as there are certain cognitive limits to 
-# how much (visual) information we can process.
+# Avoid stuffing this much data in a single plot, as there are certain cognitive limits to how much (visual) information we can process.
 
 # Export in 5x7
 
 #### ggpubr####
 library(ggpubr)
 
-# Although not officially a part of the tidyverse collection of packages, this package is made
-# by Hadley Wickham, one of the founders of the tidyverse collection of packages, so it fits them 
-# well. The main focus of the package is publication level quality of the plots it produces.
+# Although not officially a part of the tidyverse collection of packages, this package is made by Hadley Wickham, one of the founders of the tidyverse collection of packages, so it fits them well. The main focus of the package is publication level quality of the plots it produces.
 
 # The following visualization will present the correlation of the Goodreads and Open Syllabus data
 # Use this to discourage R from using scientific notation (i.e. show 10000 as 10000 not 1e+04 )
@@ -176,8 +153,7 @@ corr_plot
 #### Package of the week####
 # ggstatsplot
 
-# This package aims to combine complex statistical operations with clear visualizations in the 
-# same package. The package vignette is excellent and you can check it for additional information!
+# This package aims to combine complex statistical operations with clear visualizations in the same package. The package vignette is excellent and you can check it for additional information!
 
 # Loading the package
 library(ggstatsplot)
@@ -207,8 +183,7 @@ gender_plot
 
 # Export in 5x7
 
-# For the next visualizaion we will need to reload the original Dracula_adaptations dataset because
-# we previously deleted one of the columns in the dplyr section
+# For the next visualizaion we will need to reload the original Dracula_adaptations dataset because we previously deleted one of the columns in the dplyr section
 Dracula_adaptations <- read_csv("Datasets/Dracula adaptations.csv")
 
 #Scatterplot of film adaptations of Dracula and The Beetle with ggplot
@@ -244,8 +219,6 @@ ggscatterstats(
   xfill = "dimgray", # color fill for x-axis marginal distribution
   yfill = "dimgray" # color fill for y-axis marginal distribution
 )
-# One of the downsides of this package is that some of its elements cannot be removed from 
-# the visualization (we don't actually need the trend line and the confidence interval). We can 
-# easily remove these in Adobe Illustrator though!
+# One of the downsides of this package is that some of its elements cannot be removed from the visualization (we don't actually need the trend line and the confidence interval). We can easily remove these in Adobe Illustrator though!
 
 # Export as 5x7
