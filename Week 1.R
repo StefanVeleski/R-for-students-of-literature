@@ -3,8 +3,7 @@ setwd("C:/Users/Stefan/Documents/GitHub/R-for-students-of-literature")
 
 # You can also set up a working directory using one of R Studio's features: 
 # Session -> Set working directory -> To source file location/Choose directory
-# Also, one of the quirks of R as a programming language is that it almost never uses backslashes, 
-# but forward slashes only.
+# Also, one of the quirks of R as a programming language is that it almost never uses backslashes, but forward slashes only
 
 getwd()
 
