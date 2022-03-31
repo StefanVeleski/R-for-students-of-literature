@@ -26,9 +26,7 @@ hardy_strings <- lapply(split_hardy, function(x) x%>% select(text))
 # Converting these columns to strings (creating a character vector)
 hardy_strings <- sapply(hardy_strings, toString)
 
-# Collecting the names of the books and assigning them as names of each element of the 
-# hardy_strings character vector (in order to remove characters not allowed as names for files in
-# Windows)
+# Collecting the names of the books and assigning them as names of each element of the hardy_strings character vector (in order to remove characters not allowed as names for files in Windows)
 
 names(hardy_strings) <-  c("A Laodicean-A Story of To-day", "A Pair of Blue Eyes","Desperate Remedies", "Far from the Madding Crowd", "Jude the Obscure", "Tess of the d'Urbervilles", "The Hand of Ethelberta", "The Mayor of Casterbridge", "The Return of the Native", "The Romantic Adventures of a Milkmaid", "The Trumpet-Major", "The Well-Beloved", "The Woodlanders", "Two on a Tower","Under the Greenwood Tree")
 
@@ -61,14 +59,11 @@ names(final_MATTR_values) <- c("A Laodicean-A Story of To-day", "A Pair of Blue 
 # The following converts
 final_MATTR_values <- data.frame(final_MATTR_values)
 library(data.table)
-# We use the setDT() function from the data.table package to convert the rownames to values of a
-# separate column
+# We use the setDT() function from the data.table package to convert the rownames to values of a separate column
 final_MATTR_values<- setDT(final_MATTR_values, keep.rownames = TRUE)[]
 colnames(final_MATTR_values)[1] <- "Title"
 
-# We now have the final MATTR values for each of Hardy's novels. We will also need another variable
-# of measurements, as clustering needs at least two. We will now add sentiment related information
-# to the dataframe, which we did during the 8th session.
+# We now have the final MATTR values for each of Hardy's novels. We will also need another variable of measurements, as clustering needs at least two. We will now add sentiment related information to the dataframe, which we did during the 8th session.
 
 library(sentimentr)
 library(magrittr)
@@ -94,8 +89,7 @@ ggplot(clustering_dataset, aes(clustering_dataset$ave_sentiment))+ #check final_
   geom_histogram()
 
 # All clustering that we are doing here needs to be done with data that is normally distributed. 
-# When it comes to power law distribution, a large role is played by sheer chance, so correlation 
-# is unwarranted.
+# When it comes to power law distribution, a large role is played by sheer chance, so correlation is unwarranted.
 library(ggrepel)
 
 ggplot(clustering_dataset, aes(final_MATTR_values, ave_sentiment)) +
