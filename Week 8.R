@@ -8,8 +8,7 @@ library(textdata)
 
 hardy_meta <- gutenberg_works(author == "Hardy, Thomas") # Download metadata for Hardy's works
 hardy_meta <- hardy_meta %>% 
-  slice(c(1,2,3,4,5,6,7,8,10,11,13,18,22,23,24)) # Manually selecting Hardy's novels (metadata
-# about the type of work not included on Project Gutenberg)
+  slice(c(1,2,3,4,5,6,7,8,10,11,13,18,22,23,24)) # Manually selecting Hardy's novels (metadata about the type of work not included on Project Gutenberg)
 
 austen_meta <- gutenberg_works(author == "Austen, Jane") # Download metadata for Austen's works
 austen_meta <- austen_meta %>%  # Cutting off two compilation works that are not necessary 
@@ -22,8 +21,7 @@ hardy_tidy_texts <- gutenberg_download(hardy_meta$gutenberg_id,
 austen_tidy_texts <- gutenberg_download(austen_meta$gutenberg_id,
                                   meta_fields = "title")
 
-# The following code tokenizes the full text by individual words, but also provides additional 
-# metadata about the line and the chapter that the word is located in 
+# The following code tokenizes the full text by individual words, but also provides additional metadata about the line and the chapter that the word is located in 
 austen_tidy_texts <- austen_tidy_texts %>%
   group_by(title) %>%
   mutate(
@@ -34,17 +32,12 @@ austen_tidy_texts <- austen_tidy_texts %>%
   ungroup() %>% # removing the grouping by title set up above
   unnest_tokens(word, text) # tokenization of the text column by word (word per row)
 
-nrc_joy <- get_sentiments("nrc") %>% # tidy text function that extracts the values of 3 sentiment
-  # lexicons - AFINN, bing, loughran (mostly used for finance related use cases) and nrc
-  filter(sentiment == "joy") #out of the 8 general emotions that the nrc contains, this filters 
-# only joy
+nrc_joy <- get_sentiments("nrc") %>% # tidy text function that extracts the values of 3 sentiment lexicons - AFINN, bing, loughran (mostly used for finance related use cases) and nrc
+  filter(sentiment == "joy") #out of the 8 general emotions that the nrc contains, this filters only joy
 
-# The "Text Mining With R" book uses the janeaustenr package, which is not really 
-# necessary, as we can represent the full workflow from downloading
-# the books to visualization, which can be used with books from other authors as well.
+# The "Text Mining With R" book uses the janeaustenr package, which is not really necessary, as we can represent the full workflow from downloading the books to visualization, which can be used with books from other authors as well.
 
-# The code below simply counts the most common words in Persuasion that correspond to the joy
-# emotion in the NRC sentiment lexicon
+# The code below simply counts the most common words in Persuasion that correspond to the joy emotion in the NRC sentiment lexicon
 
 austen_tidy_texts %>%
   filter(title == "Persuasion") %>% # only selecting Persuasion from the rest of the books
@@ -116,8 +109,7 @@ austen_tidy_texts %>%
 library(zoo)
 library(syuzhet)
 
-# One of the more popular specialized sentiment analysis packages. Available dictionaries: 
-# bing, afinn, nrc, syuzhet
+# One of the more popular specialized sentiment analysis packages. Available dictionaries: bing, afinn, nrc, syuzhet
 
 # Getting a particular novel as a single character string, ready for syuzhet analysis
 # Let's first load the Austen novels from scratch, so that we have a clean slate
@@ -160,18 +152,15 @@ plot(persuasion_list$x[persuasion_sample],
 
 # Export as 5x7
 
-# But what if you don't want to download texts from Gutenberger, but you'd like to import
-# them directly, as .txt files?
+# But what if you don't want to download texts from Gutenberger, but you'd like to import them directly, as .txt files?
 
-dracula_text <- get_text_as_string("Text files/Week 8/Dracula.txt") # This is a syuzhet function 
-# that immediately pastes the text together, basically skipping the scan function we did last time # in base R, which produced somewhat unsatisfactory results! 
+dracula_text <- get_text_as_string("Text files/Week 8/Dracula.txt") # This is a syuzhet function that immediately pastes the text together, basically skipping the scan function we did last time # in base R, which produced somewhat unsatisfactory results! 
 
 #### Package of the week####
 
 # Sentimentr
 
-# A sentiment analysis package that is more sophisticated in several ways than both tidytext and
-# syuzhet. Available dictionaries: 
+# A sentiment analysis package that is more sophisticated in several ways than both tidytext and syuzhet. Available dictionaries: 
 
 library(sentimentr)
 library(magrittr)
@@ -187,8 +176,7 @@ hardy_sentiment <- hardy_tidy_texts %>%
 author_column <- factor(c("Austen", "Austen","Austen","Austen","Austen","Austen","Austen","Austen",
                           "Hardy", "Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy","Hardy"))
 
-length(autor_column) # Quick check whether the length of this vector would match the number of 
-# observations in the combined data frame (8+15)
+length(autor_column) # Quick check whether the length of this vector would match the number of observations in the combined data frame (8+15)
 
 # Combining the austen and hardy sentiment dataframes
 hardy_vs_austen <- rbind(austen_sentiment, hardy_sentiment)
@@ -197,8 +185,7 @@ hardy_vs_austen <- rbind(austen_sentiment, hardy_sentiment)
 hardy_vs_austen <- hardy_vs_austen %>% 
   cbind(author_column)
 
-# The resulting dataframe is an ideal use case for a boxplot/violin plot visualization. Let's use
-# the ggstatsplot package we used in week 5.
+# The resulting dataframe is an ideal use case for a boxplot/violin plot visualization. Let's use the ggstatsplot package we used in week 5.
 
 library(ggstatsplot)
 
